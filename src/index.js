@@ -4,10 +4,12 @@ const express = require('express')
 const nofavicon = require('express-no-favicons')
 const youtube = require('./youtube')
 const downloader = require('./downloader')
+const cors = require('cors')
 const app = express()
 
 function listen (port, callback = () => {}) {
   app.use(nofavicon())
+  app.use(cors())
 
   app.get('/', (req, res) => {
     const file = path.resolve(__dirname, 'index.html')

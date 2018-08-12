@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/codealchemist/youtube-audio-server#readme",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.15.2",
     "express-no-favicons": "0.0.1",
     "fluent-ffmpeg": "^2.1.2",
