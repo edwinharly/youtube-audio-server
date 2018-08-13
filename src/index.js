@@ -25,6 +25,14 @@ function listen (port, callback = () => {}) {
       console.error(e)
       res.sendStatus(500, e)
     }
+
+    req.on('close', () => {
+      console.log('closed');
+    });
+
+    req.on('end', () => {
+      console.log('end');
+    });
   })
 
   app.get('/search/:query/:page?', (req, res) => {
