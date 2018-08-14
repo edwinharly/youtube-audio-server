@@ -51,7 +51,17 @@ function listen (port, callback = () => {}) {
         axios.get(convertUrl)
           .then((response) => {
             const { data } = response;
-            res.json(data);
+            const vidInfo = data.vidInfo;
+            const arr = Object.entries(vidInfo);
+            if (arr.length > 0) {
+              const obj = arr[arr.length - 1][1];
+              res.json(obj);
+            } else {
+              res.json({
+                'code': 404,
+                'message': 'not found',
+              });
+            }
           })
           .catch((err) => {
             res.json({
