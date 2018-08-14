@@ -47,7 +47,7 @@ function listen (port, callback = () => {}) {
 
       if (data.items.length > 0) {
         const {videoId} = data.items[0].id;
-        const convertUrl = `http://youtubemp3converter.co/@api/json/mp3/${videoId}`;
+        const convertUrl = `https://mp3youtu.be/@api/json/mp3/${videoId}`;
         axios.get(convertUrl)
           .then((response) => {
             const { data } = response;
