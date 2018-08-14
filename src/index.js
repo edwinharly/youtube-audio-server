@@ -16,24 +16,24 @@ function listen (port, callback = () => {}) {
     res.sendFile(file)
   })
 
-  app.get('/:videoId', (req, res) => {
-    const videoId = req.params.videoId
+  // app.get('/:videoId', (req, res) => {
+  //   const videoId = req.params.videoId
 
-    try {
-      youtube.stream(videoId).pipe(res)
-    } catch (e) {
-      console.error(e)
-      res.sendStatus(500, e)
-    }
+  //   try {
+  //     youtube.stream(videoId).pipe(res)
+  //   } catch (e) {
+  //     console.error(e)
+  //     res.sendStatus(500, e)
+  //   }
 
-    req.on('close', () => {
-      console.log('closed');
-    });
+  //   req.on('close', () => {
+  //     console.log('closed');
+  //   });
 
-    req.on('end', () => {
-      console.log('end');
-    });
-  })
+  //   req.on('end', () => {
+  //     console.log('end');
+  //   });
+  // })
 
   app.get('/search/:query/:page?', (req, res) => {
     const {query, page} = req.params
