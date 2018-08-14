@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const axios = require('axios')
 const path = require('path')
 const express = require('express')
 const nofavicon = require('express-no-favicons')
@@ -44,7 +45,26 @@ function listen (port, callback = () => {}) {
         return
       }
 
-      res.json(data)
+      if (data.items.length > 0) {
+        const {videoId} = data.items[0].id;
+        const convertUrl = `https://www.convertmp3.io/fetch/?format=JSON&video=https://www.youtube.com/watch?v=${videoId}`;
+        axios.get(convertUrl)
+          .then((response) => {
+            const { data } = response;
+            res.json(data);
+          })
+          .catch((err) => {
+            res.json({
+              'code': 404,
+              'message': 'not found',
+            });
+          });
+      } else {
+        res.json({
+          'code': 404,
+          'message': 'not found',
+        });
+      }
     })
   })
 
