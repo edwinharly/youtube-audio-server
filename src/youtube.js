@@ -14,14 +14,18 @@ class YouTube {
   }
 
   stream (id, res) {
-    const video = ytdl(id)
+    const video = ytdl(id, {
+      quality: 'lowest',
+      filter: 'audioonly',
+    })
     const ffmpeg = new Ffmpeg(video)
     const stream = through2()
 
     try {
       ffmpeg
         .format('mp3')
-        .pipe(stream)
+        .noVideo()
+        .pipe(stream, { end: true })
 
       return stream
     } catch (e) {
