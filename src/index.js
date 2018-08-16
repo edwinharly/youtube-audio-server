@@ -17,24 +17,24 @@ function listen (port, callback = () => {}) {
     res.sendFile(file)
   })
 
-  // app.get('/:videoId', (req, res) => {
-  //   const videoId = req.params.videoId
+  app.get('/:videoId', (req, res) => {
+    const videoId = req.params.videoId
 
-  //   try {
-  //     youtube.stream(videoId).pipe(res)
-  //   } catch (e) {
-  //     console.error(e)
-  //     res.sendStatus(500, e)
-  //   }
+    try {
+      youtube.stream(videoId).pipe(res)
+    } catch (e) {
+      console.error(e)
+      res.sendStatus(500, e)
+    }
 
-  //   req.on('close', () => {
-  //     console.log('closed');
-  //   });
+    req.on('close', () => {
+      console.log('closed');
+    });
 
-  //   req.on('end', () => {
-  //     console.log('end');
-  //   });
-  // })
+    req.on('end', () => {
+      console.log('end');
+    });
+  })
 
   app.get('/search/:query/:page?', (req, res) => {
     const {query, page} = req.params
@@ -45,36 +45,38 @@ function listen (port, callback = () => {}) {
         return
       }
 
-      if (data.items.length > 0) {
-        const {videoId} = data.items[0].id;
-        const convertUrl = `http://youtubemp3converter.co/@api/json/mp3/${videoId}`;
-        axios.get(convertUrl)
-          .then((response) => {
-            const { data } = response;
-            const vidInfo = data.vidInfo;
-            const arr = Object.entries(vidInfo);
-            if (arr.length > 0) {
-              const obj = arr[arr.length - 1][1];
-              res.json(obj);
-            } else {
-              res.json({
-                'code': 404,
-                'message': 'not found',
-              });
-            }
-          })
-          .catch((err) => {
-            res.json({
-              'code': 404,
-              'message': 'not found',
-            });
-          });
-      } else {
-        res.json({
-          'code': 404,
-          'message': 'not found',
-        });
-      }
+      res.json(data);
+
+      // if (data.items.length > 0) {
+      //   const {videoId} = data.items[0].id;
+      //   const convertUrl = `http://youtubemp3converter.co/@api/json/mp3/${videoId}`;
+      //   axios.get(convertUrl)
+      //     .then((response) => {
+      //       const { data } = response;
+      //       const vidInfo = data.vidInfo;
+      //       const arr = Object.entries(vidInfo);
+      //       if (arr.length > 0) {
+      //         const obj = arr[arr.length - 1][1];
+      //         res.json(obj);
+      //       } else {
+      //         res.json({
+      //           'code': 404,
+      //           'message': 'not found',
+      //         });
+      //       }
+      //     })
+      //     .catch((err) => {
+      //       res.json({
+      //         'code': 404,
+      //         'message': 'not found',
+      //       });
+      //     });
+      // } else {
+      //   res.json({
+      //     'code': 404,
+      //     'message': 'not found',
+      //   });
+      // }
     })
   })
 
